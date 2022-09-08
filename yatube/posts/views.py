@@ -1,5 +1,3 @@
-from datetime import datetime
-
 from django.shortcuts import render, get_object_or_404, redirect
 
 from django.contrib.auth.decorators import login_required
@@ -37,7 +35,6 @@ def group_posts(request, slug):
 
 def profile(request, username):
     author = get_object_or_404(User, username=username)
-    posts = Post.objects.select_related('author', 'group')
     post_list = author.posts.all()
     paginator = sort_post_per_page(post_list)
     page_number = request.GET.get('page')
