@@ -59,10 +59,11 @@ def post_detail(request, post_id):
 def post_create(request, method='POST'):
     if request.method == method:
         form = PostForm(request.POST or None)
-        post = form.save(commit=False)
-        post.author = request.user
-        post.save()
-        return redirect('posts:profile', username=post.author)
+        if form.is_valid():
+            post = form.save(commit=False)
+            post.author = request.user
+            post.save()
+            return redirect('posts:profile', username=post.author)
     form = PostForm()
     context = {
         'form': form
