@@ -1,29 +1,29 @@
 {% extends 'posts/base.html'%}
-{% block title %} Пост {{ posts.text|truncatechars:30 }}
+{% block title %} Пост {{ post.text|truncatechars:30 }}
 {% endblock %}
 {% block content %}
       <div class="row">
         <aside class="col-12 col-md-3">
           <ul class="list-group list-group-flush">
             <li class="list-group-item">
-              Дата публикации: {{ posts.pub_date|date:"d E Y" }}
+              Дата публикации: {{ post.pub_date|date:"d E Y" }}
             </li>
-            {% if posts.group %} 
+            {% if post.group %} 
             <li class="list-group-item">
-              Группа: {{ posts.group.title }}
-              <a href={% url "posts:group_posts" posts.group.slug %}>
+              Группа: {{ post.group.title }}
+              <a href={% url "posts:group_posts" post.group.slug %}>
                 все записи группы
               </a>
             </li>
             {% endif %}
             <li class="list-group-item">
-              Автор: {{ posts.author.get_full_name }}
+              Автор: {{ post.author.get_full_name }}
             </li>
             <li class="list-group-item d-flex justify-content-between align-items-center">
-              Всего постов автора: {{ posts.author.posts.count }}
+              Всего постов автора: {{ post.author.posts.count }}
             </li>
             <li class="list-group-item">
-              <a href={% url "posts:profile" posts.author.username %}>
+              <a href={% url "posts:profile" post.author.username %}>
                 все посты пользователя
               </a>
             </li>
@@ -31,11 +31,11 @@
         </aside>
         <article class="col-12 col-md-9">
           <p>
-            {{ posts.text }}
+            {{ post.text }}
           </p>
           <p>
-            {% if post_id %}
-            <button type="button" href="posts/{{ post_id }}/edit" class="btn btn-primary">
+            {% if post.id %}
+            <button type="button" onclick="location.href='../{{post.id}}/edit';" class="btn btn-primary">
             Редактировать запись
             </button>
             {% endif %}
