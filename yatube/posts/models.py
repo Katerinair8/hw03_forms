@@ -22,7 +22,7 @@ class Group(models.Model):
     )
     description = models.TextField(
         verbose_name='Описание группы',
-        help_text='Дайте короткое описание группы'    
+        help_text='Дайте короткое описание группы'
     )
 
     class Meta:
@@ -42,8 +42,8 @@ class Post(models.Model):
     text = models.TextField(
         verbose_name='Текст поста',
         help_text='Введите текст поста')
-    pub_date = models.DateTimeField(
-        auto_now_add=True, verbose_name='Дата публикации'
+    pub_date = models.DateTimeField(auto_now_add=True,
+                                    verbose_name='Дата публикации'
                                     )
     author = models.ForeignKey(
         User,
