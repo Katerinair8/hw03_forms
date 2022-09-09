@@ -1,8 +1,7 @@
 from django.views.generic import CreateView
+from django.urls import reverse_lazy
 
 from .forms import CreationForm
-
-from django.urls import reverse_lazy
 
 
 class SignUp(CreateView):

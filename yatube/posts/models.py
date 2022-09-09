@@ -1,5 +1,6 @@
-from django.db import models
+from pytils.translit import slugify
 
+from django.db import models
 from django.contrib.auth import get_user_model
 
 
@@ -10,7 +11,7 @@ class Group(models.Model):
     title = models.CharField(
         max_length=200,
         verbose_name='Название группы',
-        help_text='Дайте короткое название группе'
+        help_text='Дайте короткое название группы'
     )
     slug = models.SlugField(
         max_length=100,
@@ -29,6 +30,12 @@ class Group(models.Model):
 
     def __str__(self):
         return self.title
+    
+    def save(self, *args, **kwargs):
+        if not self.slug:
+            self.slug = slugify(self.title)[:100]
+        super().save(*args, **kwargs)
+
 
 
 class Post(models.Model):
