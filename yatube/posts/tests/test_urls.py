@@ -89,14 +89,14 @@ class PostURLTests(TestCase):
         post_id = PostURLTests.post.id
         user = PostURLTests.user
         templates_url_names = {
-            'posts/index.html': '/',
-            'posts/group_list.html': f'/group/{slug}/',
-            'posts/profile.html': f'/profile/{user}/',
-            'posts/post_detail.html': f'/posts/{post_id}/',
-            'posts/create_post.html': f'/posts/{post_id}/edit/', 
-            'posts/create_post.html': '/create/',
+            '/': 'posts/index.html',
+            f'/group/{slug}/': 'posts/group_list.html',
+            f'/profile/{user}/': 'posts/profile.html',
+            f'/posts/{post_id}/': 'posts/post_detail.html',
+            f'/posts/{post_id}/edit/': 'posts/create_post.html',
+            '/create/': 'posts/create_post.html',
         }
-        for template, address in templates_url_names.items():
-            with self.subTest(address=address):
-                response = self.authorized_client.get(address)
+        for adress, template in templates_url_names.items():
+            with self.subTest(address=adress):
+                response = self.authorized_client.get(adress)
                 self.assertTemplateUsed(response, template)
