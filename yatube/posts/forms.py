@@ -9,6 +9,6 @@ class PostForm(forms.ModelForm):
         model = Post
         fields = ('group', 'text',)
         labels = {
-            'text': ('Текст поста'),
-            'group': ('Группа'),
+            'text': 'Текст поста',
+            'group': 'Группа',
         }

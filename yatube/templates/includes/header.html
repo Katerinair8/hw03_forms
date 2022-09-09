@@ -25,17 +25,17 @@
               <a class="nav-link link-light" href="{% url 'password_change' %}">Изменить пароль</a>
             </li>
             <li class="nav-item"> 
-              <a class="nav-link link-light" href="auth/logout/">Выйти</a>
+              <a class="nav-link link-light" href="{% url 'users:logout' %}">Выйти</a>
             </li>
             <li>
               Пользователь: {{ user.username }}
             </li>
             {% else %}
             <li class="nav-item"> 
-              <a class="nav-link link-light" href="/auth/login/">Войти</a>
+              <a class="nav-link link-light" href="{% url 'users:login' %}">Войти</a>
             </li>
             <li class="nav-item"> 
-              <a class="nav-link link-light" href="/auth/signup/">Регистрация</a>
+              <a class="nav-link link-light" href="{% url 'users:signup' %}">Регистрация</a>
             </li>
             {% endif %}
             {% endwith %}

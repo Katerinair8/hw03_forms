@@ -1,8 +1,9 @@
 from django.core.paginator import Paginator
 
-from yatube.settings import POST_PER_PAGE
+from django.conf import settings
 
 
-def sort_post_per_page(posts):
-    paginator = Paginator(posts, POST_PER_PAGE)
-    return paginator
+def paginate_objects(posts, page_number):
+    paginator = Paginator(posts, settings.POST_PER_PAGE)
+    page_obj = paginator.get_page(page_number)
+    return page_obj

@@ -2,18 +2,17 @@ from django.shortcuts import render, get_object_or_404, redirect
 
 from django.contrib.auth.decorators import login_required
 
-from .models import Post, Group, User
-
 from .forms import PostForm
 
-from .utils import sort_post_per_page
+from .models import Post, Group, User
+
+from .utils import paginate_objects
 
 
 def index(request):
     posts = Post.objects.all()
-    paginator = sort_post_per_page(posts)
     page_number = request.GET.get('page')
-    page_obj = paginator.get_page(page_number)
+    page_obj = paginate_objects(posts, page_number)
     context = {
         'page_obj': page_obj,
     }
@@ -23,9 +22,8 @@ def index(request):
 def group_posts(request, slug):
     group = get_object_or_404(Group, slug=slug)
     posts = group.posts.all()
-    paginator = sort_post_per_page(posts)
     page_number = request.GET.get('page')
-    page_obj = paginator.get_page(page_number)
+    page_obj = paginate_objects(posts, page_number)
     context = {
         'group': group,
         'page_obj': page_obj,
@@ -36,9 +34,8 @@ def group_posts(request, slug):
 def profile(request, username):
     author = get_object_or_404(User, username=username)
     post_list = author.posts.all()
-    paginator = sort_post_per_page(post_list)
     page_number = request.GET.get('page')
-    page_obj = paginator.get_page(page_number)
+    page_obj = paginate_objects(post_list, page_number)
     context = {
         'page_obj': page_obj,
         'author': author,
@@ -57,14 +54,13 @@ def post_detail(request, post_id):
 
 @login_required
 def post_create(request, method='POST'):
+    form = PostForm(request.POST or None)
     if request.method == method:
-        form = PostForm(request.POST or None)
         if form.is_valid():
             post = form.save(commit=False)
             post.author = request.user
             post.save()
             return redirect('posts:profile', username=post.author)
-    form = PostForm()
     context = {
         'form': form
     }
@@ -73,17 +69,14 @@ def post_create(request, method='POST'):
 
 @login_required
 def post_edit(request, post_id: int):
-    groups = Group.objects.all()
     post = get_object_or_404(Post, pk=post_id)
+    form = PostForm(request.POST or None, instance=post)
     if request.method == 'POST':
-        form = PostForm(request.POST or None, instance=post)
         if request.user == post.author:
             form.save()
             return redirect('posts:post_detail', post.pk)
-    form = PostForm(instance=post)
     context = {
         'is_edit': True,
-        'groups': groups,
         'post': post,
         'form': form
     }

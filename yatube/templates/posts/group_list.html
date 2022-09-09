@@ -15,11 +15,7 @@
           <ul>
             <li>
               Автор: 
-              {% if post.author.get_full_name %}
               <a href={% url "posts:profile" post.author.username %}>{{ post.author.get_full_name }}</a>
-              {% else %}
-              <a href={% url "posts:profile" post.author.username %}>Анонимный автор</a>
-              {% endif %}
             </li>
             <li>
               Дата публикации: {{ post.pub_date|date:"d E Y" }}

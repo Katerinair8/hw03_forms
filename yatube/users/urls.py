@@ -1,10 +1,6 @@
-from django.contrib.auth.views import LoginView, LogoutView
-
-from django.contrib.auth.views import PasswordChangeView
-
-from django.contrib.auth.views import PasswordChangeDoneView
-
 from django.urls import path
+
+from django.contrib.auth.views import LoginView, LogoutView, PasswordChangeView, PasswordChangeDoneView
 
 from . import views
 

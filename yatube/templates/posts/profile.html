@@ -4,10 +4,10 @@
 {% block content %}
     <main>
       <div class="container py-5">           
-        <article>
         <h1>Все посты пользователя {{ author }} </h1>
         <h3>Всего постов: {{ post_list.count }}  </h3>
         {% for post in page_obj %}
+        <article>
           <ul>
             <li>
               Автор: {{ post.author.get_full_name }}
