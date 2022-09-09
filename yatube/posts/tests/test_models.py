@@ -1,7 +1,4 @@
-from tokenize import group
-
 from django.contrib.auth import get_user_model
-
 from django.test import TestCase
 
 from ..models import Group, Post
@@ -36,17 +33,18 @@ class GroupModelTest(TestCase):
     def setUpClass(cls):
         super().setUpClass()
         cls.group = Group.objects.create(
-            title='З'*200,
+            title='З' * 200,
         )
 
     def test_text_convert_to_slug(self):
         """Содержимое поля title преобразуется в slug."""
         task = GroupModelTest.group
         slug = task.slug
-        self.assertEqual(slug, 'z'*100)
+        self.assertEqual(slug, 'z' * 100)
 
     def test_text_slug_max_length_not_exceed(self):
-        """Длинный slug обрезается и не превышает max_length поля slug в модели."""
+        """Длинный slug обрезается и не
+        превышает max_length поля slug в модели."""
         task = GroupModelTest.group
         max_length_slug = task._meta.get_field('slug').max_length
         length_slug = len(task.slug)
@@ -63,8 +61,8 @@ class GroupModelTest(TestCase):
         for field, expected_value in field_verboses.items():
             with self.subTest(field=field):
                 self.assertEqual(
-                    group._meta.get_field(field).verbose_name, expected_value
-                    )
+                    group._meta.get_field(field).verbose_name,
+                    expected_value)
 
     def test_help_text(self):
         """help_text в полях совпадает с ожидаемым."""
@@ -76,8 +74,7 @@ class GroupModelTest(TestCase):
         for field, expected_value in field_help_text.items():
             with self.subTest(field=field):
                 self.assertEqual(
-                    group._meta.get_field(field).help_text, expected_value
-                    )
+                    group._meta.get_field(field).help_text, expected_value)
 
     def test_object_name_is_title_fild(self):
         """__str__  group - это строчка с содержимым group.title."""
