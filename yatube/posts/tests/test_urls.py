@@ -14,7 +14,7 @@ class PostURLTests(TestCase):
         cls.user = User.objects.create_user(username='auth')
         cls.post = Post.objects.create(
             text='Тестовый текст',
-            author = cls.user,
+            author=cls.user,
         )
         cls.group = Group.objects.create(
             title='Тестовая группа',
@@ -63,7 +63,7 @@ class PostURLTests(TestCase):
     def test_create_url_redirect_anonymous(self):
         response = self.guest_client.get('/create/')
         self.assertEqual(response.status_code, 302)
-            
+
     def test_post_edit_url_redirect_anonymous(self):
         post_id = PostURLTests.post.id
         response = self.client.get(f'/posts/{post_id}/edit/')
@@ -82,7 +82,7 @@ class PostURLTests(TestCase):
         post_id = PostURLTests.post.id
         response = self.client.get(f'/posts/{post_id}/edit/', follow=True)
         self.assertRedirects(
-            response, (f'/auth/login/?next=/posts/{post_id}/edit/')) 
+            response, (f'/auth/login/?next=/posts/{post_id}/edit/'))
 
     def test_urls_uses_correct_template(self):
         slug = PostURLTests.group.slug
@@ -93,11 +93,10 @@ class PostURLTests(TestCase):
             'posts/group_list.html': f'/group/{slug}/',
             'posts/profile.html': f'/profile/{user}/',
             'posts/post_detail.html': f'/posts/{post_id}/',
-            'posts/create_post.html': f'/posts/{post_id}/edit/',
+            'posts/create_post.html': f'/posts/{post_id}/edit/', 
             'posts/create_post.html': '/create/',
         }
         for template, address in templates_url_names.items():
             with self.subTest(address=address):
                 response = self.authorized_client.get(address)
                 self.assertTemplateUsed(response, template)
-
